@@ -1,7 +1,16 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
-  workflow_dispatch:  # Allows manual triggering of the workflow
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New version to update'
+        required: true
+        type: string
+      branch_name:
+        description: 'Branch name for the PR'
+        required: true
+        type: string
 
 jobs:
   Explore-GitHub-Actions:
