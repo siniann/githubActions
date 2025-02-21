@@ -25,11 +25,6 @@ jobs:
         with:
           fetch-depth: 0  # Ensures full history for proper branching
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Create and Switch to New Branch
         run: |
           git checkout -b "${{ inputs.branch_name }}"
