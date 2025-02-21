@@ -25,23 +25,26 @@ jobs:
         with:
           fetch-depth: 0  # Ensures full history for proper branching
 
-      - name: Run Version Update Script
-        run: |
-          chmod +x update_versions.sh
-          ./update_versions.sh "${{ inputs.version }}"
-
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Create and Push New Branch
+      - name: Create and Switch to New Branch
         run: |
-          BRANCH_NAME="${{ inputs.branch_name }}"
-          git checkout -b "$BRANCH_NAME"
-          git add version.txt
+          git checkout -b "${{ inputs.branch_name }}"
+          echo "Switched to branch: ${{ inputs.branch_name }}"
+
+      - name: Run Version Update Script
+        run: |
+          chmod +x update_versions.sh
+          ./update_versions.sh "${{ inputs.version }}"
+
+      - name: Commit and Push Changes
+        run: |
+          git add .
           git commit -m "Update version to ${{ inputs.version }}"
-          git push origin "$BRANCH_NAME"
+          git push origin "${{ inputs.branch_name }}"
 
       - name: Create Pull Request Using GitHub CLI
         env:
